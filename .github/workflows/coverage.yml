@@ -1,0 +1,41 @@
+name: Coverage
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Backend (pytest + cobertura XML)
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov
+          pytest -q --cov=. --cov-report=xml
+
+      # Web (Vitest + lcov)
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: |
+          cd web
+          npm ci || npm install
+          npm run test -- --coverage || npm run -s test -- --coverage || npx vitest run --coverage
+
+      # Upload para Codecov (requer secret CODECOV_TOKEN p/ repositórios privados)
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: |
+            backend/coverage.xml
+            web/coverage/lcov.info
+          flags: unittests
+          fail_ci_if_error: false

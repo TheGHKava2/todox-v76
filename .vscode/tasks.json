@@ -1,0 +1,163 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ToDoX: Listar Projetos",
+      "type": "shell",
+      "command": "curl",
+      "args": [
+        "-X",
+        "GET",
+        "${input:todoBaseUrl}/projects",
+        "-H",
+        "Content-Type: application/json"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "ToDoX: Próxima Tarefa",
+      "type": "shell",
+      "command": "curl",
+      "args": [
+        "-X",
+        "POST",
+        "${input:todoBaseUrl}/projects/${input:projectId}/claim-next",
+        "-H",
+        "Content-Type: application/json",
+        "-d",
+        "{\"agent_id\": ${input:agentId}}"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "ToDoX: Finalizar Tarefa",
+      "type": "shell",
+      "command": "curl",
+      "args": [
+        "-X",
+        "POST",
+        "${input:todoBaseUrl}/tasks/${input:taskId}/finish",
+        "-H",
+        "Content-Type: application/json",
+        "-d",
+        "{\"run_id\": ${input:runId}, \"status\": \"SUCCESS\", \"summary_md\": \"${input:summary}\", \"create_pr\": true}"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "ToDoX: Criar Tarefa",
+      "type": "shell",
+      "command": "curl",
+      "args": [
+        "-X",
+        "POST",
+        "${input:todoBaseUrl}/projects/${input:projectId}/tasks",
+        "-H",
+        "Content-Type: application/json",
+        "-d",
+        "{\"title\": \"${input:taskTitle}\", \"description_md\": \"${input:taskDescription}\", \"priority\": ${input:taskPriority}}"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "ToDoX: Scaffold Projeto",
+      "type": "shell",
+      "command": "curl",
+      "args": [
+        "-X",
+        "GET",
+        "${input:todoBaseUrl}/projects/${input:projectId}/scaffold",
+        "-o",
+        "project_scaffold.zip"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "todoBaseUrl",
+      "description": "URL da API ToDoX",
+      "default": "https://seu-projeto.up.railway.app",
+      "type": "promptString"
+    },
+    {
+      "id": "projectId",
+      "description": "ID do Projeto",
+      "default": "1",
+      "type": "promptString"
+    },
+    {
+      "id": "agentId",
+      "description": "ID do Agente (VSCode/Copilot)",
+      "default": "100",
+      "type": "promptString"
+    },
+    {
+      "id": "taskId",
+      "description": "ID da Tarefa",
+      "type": "promptString"
+    },
+    {
+      "id": "runId",
+      "description": "ID da Execução",
+      "type": "promptString"
+    },
+    {
+      "id": "summary",
+      "description": "Resumo da execução",
+      "default": "Tarefa executada com sucesso via VSCode",
+      "type": "promptString"
+    },
+    {
+      "id": "taskTitle",
+      "description": "Título da Nova Tarefa",
+      "type": "promptString"
+    },
+    {
+      "id": "taskDescription",
+      "description": "Descrição da Tarefa",
+      "type": "promptString"
+    },
+    {
+      "id": "taskPriority",
+      "description": "Prioridade (1-4)",
+      "default": "3",
+      "type": "promptString"
+    }
+  ]
+}

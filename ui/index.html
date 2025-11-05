@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ToDoX MVP v3</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header>
+  <h1>ToDoX MVP v3</h1>
+  <div class="row">
+    <label>API URL: <input id="apiUrl" value="http://localhost:8000"/></label>
+    <button id="seedBtn">Seed Demo</button>
+    <button id="reloadBtn">Recarregar</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Projetos</h2>
+    <div id="projects"></div>
+    <div class="row">
+      <input id="newProject" placeholder="Nome do projeto"/>
+      <button id="addProject">Criar</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Backlog (ordem = primeira da fila)</h2>
+    <div class="row">
+      <input id="taskTitle" placeholder="Título da tarefa" style="flex:2"/>
+      <input id="taskPriority" type="number" min="1" max="4" value="3" title="Prioridade"/>
+      <button id="addTask">Adicionar</button>
+    </div>
+    <table id="tasksTable">
+      <thead><tr><th>ID</th><th>Título</th><th>Prior.</th><th>Status</th><th>Assignee</th><th>Order</th><th>Ações</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Scaffold</h2>
+    <div class="row">
+      <label>Template: <select id="template"></select></label>
+      <label>Licença: <select id="license"><option>MIT</option></select></label>
+      <label><input type="checkbox" id="ci" checked/> CI</label>
+      <label>Py cov% <input id="covPy" type="number" min="0" max="100" value="80" style="width:80px"/></label>
+      <label>Node cov% <input id="covNode" type="number" min="0" max="100" value="80" style="width:80px"/></label>
+    </div>
+    <div class="row">
+      <input id="destPath" placeholder="Caminho destino local (ex.: ~/Projetos/meu-projeto)" style="flex:2"/>
+      <label><input type="checkbox" id="initGit" checked/> git init</label>
+      <label><input type="checkbox" id="createVenv"/> criar venv</label>
+      <label><input type="checkbox" id="installDeps"/> instalar deps</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="createRemote"/> criar repositório remoto (GitHub via gh)</label>
+      <label>repo_name: <input id="repoName" placeholder="(opcional)"/></label>
+      <label>visibilidade: <select id="remoteVisibility"><option value="private">private</option><option value="public">public</option></select></label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="openPr"/> abrir PR inicial</label>
+      <input id="prTitle" placeholder="PR title" value="Scaffold inicial ToDoX" style="flex:1"/>
+      <input id="prBody" placeholder="PR body (opcional)" style="flex:1"/>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="dockerize" checked/> Dockerfiles</label>
+      <label><input type="checkbox" id="compose" checked/> docker-compose</label>
+    </div>
+    <div class="row">
+      <input id="postCmd" placeholder="post_init_cmd (opcional, ex.: pytest -q)" style="flex:2"/>
+      <button id="scaffoldZipBtn">Baixar ZIP</button>
+      <button id="applyBtn">Gerar local agora</button>
+    </div>
+    <pre id="applyLog" class="log"></pre>
+  </section>
+
+  <section class="panel">
+    <h2>Watcher (sync contínuo TASKS.yaml ⇄ ToDoX)</h2>
+    <div class="row">
+      <input id="watchRepo" placeholder="Caminho do repositório (ex.: ~/Projetos/meu-projeto)" style="flex:2"/>
+      <input id="watchRel" placeholder="Relpath do YAML (ex.: todox/TASKS.yaml)" value="todox/TASKS.yaml" style="flex:1"/>
+      <button id="watchStart">Start</button>
+      <button id="watchStop">Stop</button>
+      <button id="watchStatus">Status</button>
+    </div>
+    <pre id="watchLog" class="log"></pre>
+  </section>
+
+  <section class="panel">
+    <h2>PRs simulados</h2>
+    <table id="prsTable">
+      <thead><tr><th>ID</th><th>Tarefa/Run</th><th>Título</th><th>Resumo Diff</th><th>Criado</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Tasks YAML</h2>
+    <div class="row">
+      <button id="exportYamlBtn">Exportar (baixar)</button>
+      <input type="file" id="yamlFile"/>
+      <button id="importYamlBtn">Importar (subir)</button>
+    </div>
+    <pre id="yamlLog" class="log"></pre>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

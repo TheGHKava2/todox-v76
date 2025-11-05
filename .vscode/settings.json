@@ -1,0 +1,45 @@
+{
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": true
+  },
+
+  // Configurações do ToDoX
+  "todox.apiUrl": "https://seu-projeto.up.railway.app",
+  "todox.projectId": 1,
+  "todox.agentId": 100,
+  "todox.autoSync": true,
+
+  // Terminal integrado
+  "terminal.integrated.env.windows": {
+    "TODOX_API_URL": "https://seu-projeto.up.railway.app",
+    "TODOX_PROJECT_ID": "1",
+    "TODOX_AGENT_ID": "100"
+  },
+
+  // Configurações para trabalhar com tarefas
+  "files.associations": {
+    "TASKS.yaml": "yaml",
+    "*.todox": "yaml"
+  },
+
+  // Auto-save para sync com ToDoX
+  "files.autoSave": "onWindowChange",
+
+  // Git integration
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+
+  // Extensions recomendadas para ToDoX
+  "extensions.recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-python.python",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "redhat.vscode-yaml"
+  ]
+}

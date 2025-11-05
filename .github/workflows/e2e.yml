@@ -1,0 +1,45 @@
+name: E2E
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Backend
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          nohup python -m uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 &
+          sleep 5
+
+      # Web
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: |
+          cd web
+          npm ci || npm install
+          npm run build
+          nohup npm start &
+          sleep 5
+        env:
+          NEXT_PUBLIC_API_URL: "http://localhost:8000"
+
+      # Playwright
+      - name: Install Playwright
+        run: |
+          cd web
+          npx playwright install --with-deps
+      - name: Run E2E
+        run: |
+          cd web
+          npx playwright test --reporter=line

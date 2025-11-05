@@ -1,0 +1,84 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Next.js
+.next/
+out/
+dist/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+!.env.production
+!.env.railway
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+# Keep VSCode settings for ToDoX integration
+# .vscode/
+
+# Build outputs
+build/
+dist/
+*.tgz
+*.tar.gz
+
+# Coverage
+coverage/
+.nyc_output
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+
+# Backups
+backups/
+*.backup
+*.bak
+
+# Railway
+.railway/
+
+# Vercel
+.vercel
