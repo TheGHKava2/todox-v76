@@ -1,6 +1,6 @@
 # Railway Configuration for Backend
 
-# Build settings
+# Build settings  
 [build]
 builder = "nixpacks"
 
@@ -12,9 +12,3 @@ PYTHON_VERSION = "3.11"
 startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/docs"
 healthcheckTimeout = 300
-
-# Environment variables (to be set in Railway dashboard)
-[env]
-# DB_PATH will be set to Railway volume path
-# CORS_ORIGINS will be set to Vercel domain
-# PORT is automatically provided by Railway
