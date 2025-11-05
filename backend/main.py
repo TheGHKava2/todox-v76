@@ -216,7 +216,18 @@ async def create_project(payload: ProjectCreate, db: Session = Depends(get_db)):
 
 @app.get("/projects", response_model=List[ProjectOut])
 def list_projects(db: Session = Depends(get_db)):
-    return db.scalars(select(models.Project).order_by(models.Project.id)).all()
+    try:
+        projects = db.scalars(select(models.Project).order_by(models.Project.id)).all()
+        return projects
+    except Exception as e:
+        # Se erro, provavelmente tabelas não existem - criar
+        try:
+            from database import init_db
+            init_db()
+            projects = db.scalars(select(models.Project).order_by(models.Project.id)).all()
+            return projects
+        except Exception as e2:
+            raise HTTPException(status_code=500, detail=f"Database error: {str(e2)}")
 
 # -------- Agents --------
 @app.post("/agents", response_model=AgentOut)
