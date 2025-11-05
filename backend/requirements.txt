@@ -6,4 +6,6 @@ python-multipart==0.0.9
 PyYAML==6.0.2
 watchdog==4.0.2
 sqlmodel==0.0.22
+pytest==7.4.3
+requests==2.31.0
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Frontend - Backend</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .test {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f0f0f0;
+        border-radius: 4px;
+      }
+      .success {
+        background: #d4edda;
+      }
+      .error {
+        background: #f8d7da;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Debug Frontend → Backend</h1>
+    <div id="results"></div>
+
+    <script>
+      async function testConnection() {
+        const results = document.getElementById("results");
+
+        // Test 1: Teste direto para o backend
+        try {
+          results.innerHTML +=
+            '<div class="test">🔄 Testando conexão direta com backend...</div>';
+
+          const response = await fetch("http://localhost:8000/projects");
+          const data = await response.json();
+
+          results.innerHTML += `<div class="test success">✅ Backend direto: OK - ${data.length} projetos</div>`;
+        } catch (error) {
+          results.innerHTML += `<div class="test error">❌ Backend direto: ${error.message}</div>`;
+        }
+
+        // Test 2: Teste de CORS
+        try {
+          results.innerHTML += '<div class="test">🔄 Testando CORS...</div>';
+
+          const response = await fetch("http://localhost:8000/health");
+          const data = await response.json();
+
+          results.innerHTML += `<div class="test success">✅ CORS: OK - ${data.status}</div>`;
+        } catch (error) {
+          results.innerHTML += `<div class="test error">❌ CORS: ${error.message}</div>`;
+        }
+
+        // Test 3: Teste POST (criar projeto)
+        try {
+          results.innerHTML += '<div class="test">🔄 Testando POST...</div>';
+
+          const response = await fetch("http://localhost:8000/projects", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: "Teste Debug " + Date.now() }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            results.innerHTML += `<div class="test success">✅ POST: OK - Projeto ${data.id} criado</div>`;
+          } else {
+            results.innerHTML += `<div class="test error">❌ POST: Status ${response.status}</div>`;
+          }
+        } catch (error) {
+          results.innerHTML += `<div class="test error">❌ POST: ${error.message}</div>`;
+        }
+
+        // Test 4: Teste do sistema
+        results.innerHTML +=
+          '<div class="test">🔍 Informações do sistema:</div>';
+        results.innerHTML += `<div class="test">📍 Origem atual: ${window.location.origin}</div>`;
+        results.innerHTML += `<div class="test">🌐 User Agent: ${navigator.userAgent}</div>`;
+      }
+
+      // Executar testes ao carregar
+      window.onload = testConnection;
+    </script>
+  </body>
+</html>

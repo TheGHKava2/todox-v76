@@ -4,18 +4,23 @@ import "./globals.css";
 import Link from "next/link";
 import { QueryProvider } from "@/lib/query";
 import { attachRealtime } from "@/lib/events";
+import { ToastProvider } from "@/components/toast-context";
+import { ToastContainer } from "@/components/toast-container";
 import React from "react";
 
-
-function LiveClient(){ 
-  React.useEffect(()=>{ 
-    const cleanup = attachRealtime(1); 
-    return cleanup || (() => {}); 
+function LiveClient() {
+  React.useEffect(() => {
+    const cleanup = attachRealtime(1);
+    return cleanup || (() => {});
   }, []);
   return null;
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }){
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-BR">
       <body>
@@ -34,8 +39,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
           </div>
         </header>
         <QueryProvider>
-          <main className="container my-6">{children}</main>
-          <LiveClient />
+          <ToastProvider>
+            <main className="container my-6">{children}</main>
+            <LiveClient />
+            <ToastContainer />
+          </ToastProvider>
         </QueryProvider>
       </body>
     </html>

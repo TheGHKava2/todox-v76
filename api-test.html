@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDoX API Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+      }
+      .result {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 4px;
+      }
+      .error {
+        background: #ffe6e6;
+        color: #cc0000;
+      }
+      .success {
+        background: #e6ffe6;
+        color: #006600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ToDoX API Test</h1>
+
+    <div>
+      <h2>Configuração:</h2>
+      <p>API Base: <span id="api-base">http://localhost:8000</span></p>
+      <button onclick="updateApiBase()">Atualizar API Base</button>
+    </div>
+
+    <div>
+      <h2>Testes:</h2>
+      <button onclick="testListProjects()">Listar Projetos</button>
+      <button onclick="testCreateProject()">Criar Projeto</button>
+      <button onclick="testApiConnection()">Testar Conexão</button>
+      <button onclick="testGlobalAPI()">Testar API Global</button>
+      <button onclick="clearResults()">Limpar Resultados</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+      let API_BASE = "http://localhost:8000";
+
+      // Função de fetch personalizada
+      async function j(url, init) {
+        const r = await fetch(url, {
+          ...(init || {}),
+          headers: {
+            "Content-Type": "application/json",
+            ...(init?.headers || {}),
+          },
+        });
+        if (!r.ok) {
+          throw new Error(await r.text());
+        }
+        const ct = r.headers.get("content-type") || "";
+        if (ct.includes("application/json")) return r.json();
+        return r.text();
+      }
+
+      // API object
+      const api = {
+        projects: {
+          list: () => j(`${API_BASE}/projects`),
+          create: (name) =>
+            j(`${API_BASE}/projects`, {
+              method: "POST",
+              body: JSON.stringify({ name }),
+            }),
+        },
+        tasks: {
+          list: (projectId) => j(`${API_BASE}/projects/${projectId}/tasks`),
+          create: (projectId, title, priority = 3) =>
+            j(`${API_BASE}/projects/${projectId}/tasks`, {
+              method: "POST",
+              body: JSON.stringify({ title, priority, description_md: "" }),
+            }),
+        },
+        seed: () => j(`${API_BASE}/seed`, { method: "POST" }),
+      };
+
+      // Expor globalmente
+      window.api = api;
+      window.API_BASE = API_BASE;
+
+      function updateApiBase() {
+        const newBase = prompt("Digite a nova URL da API:", API_BASE);
+        if (newBase) {
+          API_BASE = newBase;
+          window.API_BASE = API_BASE;
+          document.getElementById("api-base").textContent = API_BASE;
+          addResult("API Base atualizada para: " + API_BASE, "success");
+        }
+      }
+
+      function addResult(message, type = "result") {
+        const div = document.createElement("div");
+        div.className = "result " + type;
+        div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+        document.getElementById("results").appendChild(div);
+      }
+
+      async function testApiConnection() {
+        try {
+          addResult("Testando conexão com " + API_BASE + "...");
+          const response = await fetch(API_BASE + "/docs");
+          if (response.ok) {
+            addResult("✅ API está online e respondendo!", "success");
+          } else {
+            addResult(
+              "❌ API respondeu com status: " + response.status,
+              "error"
+            );
+          }
+        } catch (error) {
+          addResult("❌ Erro de conexão: " + error.message, "error");
+        }
+      }
+
+      async function testListProjects() {
+        try {
+          addResult("Buscando projetos...");
+          const response = await fetch(API_BASE + "/projects");
+          const data = await response.json();
+
+          if (response.ok) {
+            addResult(
+              "✅ Projetos encontrados: " + JSON.stringify(data, null, 2),
+              "success"
+            );
+          } else {
+            addResult(
+              "❌ Erro ao buscar projetos: " + JSON.stringify(data),
+              "error"
+            );
+          }
+        } catch (error) {
+          addResult("❌ Erro de rede: " + error.message, "error");
+        }
+      }
+
+      async function testCreateProject() {
+        const name = prompt("Nome do projeto:", "Projeto Teste " + Date.now());
+        if (!name) return;
+
+        try {
+          addResult("Criando projeto: " + name);
+          const response = await fetch(API_BASE + "/projects", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            addResult(
+              "✅ Projeto criado: " + JSON.stringify(data, null, 2),
+              "success"
+            );
+          } else {
+            addResult(
+              "❌ Erro ao criar projeto: " + JSON.stringify(data),
+              "error"
+            );
+          }
+        } catch (error) {
+          addResult("❌ Erro de rede: " + error.message, "error");
+        }
+      }
+
+      function clearResults() {
+        document.getElementById("results").innerHTML = "";
+      }
+
+      function testGlobalAPI() {
+        addResult("Testando objetos globais...");
+        addResult(
+          "window.api: " + typeof window.api,
+          window.api ? "success" : "error"
+        );
+        addResult(
+          "window.API_BASE: " + window.API_BASE,
+          window.API_BASE ? "success" : "error"
+        );
+
+        if (window.api) {
+          addResult("✅ window.api está disponível!", "success");
+          addResult("Tentando listar projetos via window.api...");
+          window.api.projects
+            .list()
+            .then((data) =>
+              addResult(
+                "✅ Projetos via window.api: " + JSON.stringify(data),
+                "success"
+              )
+            )
+            .catch((error) =>
+              addResult("❌ Erro via window.api: " + error.message, "error")
+            );
+        } else {
+          addResult("❌ window.api não está disponível", "error");
+        }
+      }
+
+      // Teste inicial
+      window.onload = function () {
+        addResult(
+          "Página carregada. API configurada para: " + API_BASE,
+          "success"
+        );
+        addResult("✅ window.api criado: " + typeof window.api, "success");
+        addResult("✅ window.API_BASE criado: " + window.API_BASE, "success");
+        testApiConnection();
+      };
+    </script>
+  </body>
+</html>

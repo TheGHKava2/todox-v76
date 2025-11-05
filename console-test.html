@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Console API</title>
+  </head>
+  <body>
+    <h1>API Test Console</h1>
+    <p>abba o console do navegador (F12) e execute:</p>
+    <pre>
+console.log("window.api:", window.api);
+console.log("API_BASE:", window.API_BASE);
+window.api.projects.list().then(console.log);
+    </pre>
+
+    <div id="status"></div>
+
+    <script>
+      // API configuration
+      const API_BASE = "http://localhost:8000";
+
+      // Utility function for API calls
+      async function j(url, init) {
+        const r = await fetch(url, {
+          ...(init || {}),
+          headers: {
+            "Content-Type": "application/json",
+            ...(init?.headers || {}),
+          },
+        });
+        if (!r.ok) {
+          throw new Error(await r.text());
+        }
+        const ct = r.headers.get("content-type") || "";
+        if (ct.includes("application/json")) return r.json();
+        return r.text();
+      }
+
+      // API object
+      const api = {
+        projects: {
+          list: () => j(`${API_BASE}/projects`),
+          create: (name) =>
+            j(`${API_BASE}/projects`, {
+              method: "POST",
+              body: JSON.stringify({ name }),
+            }),
+        },
+        tasks: {
+          list: (projectId) => j(`${API_BASE}/projects/${projectId}/tasks`),
+          create: (projectId, title, priority = 3) =>
+            j(`${API_BASE}/projects/${projectId}/tasks`, {
+              method: "POST",
+              body: JSON.stringify({ title, priority, description_md: "" }),
+            }),
+        },
+        seed: () => j(`${API_BASE}/seed`, { method: "POST" }),
+      };
+
+      // Expose to window
+      window.api = api;
+      window.API_BASE = API_BASE;
+
+      // Test on load
+      window.onload = async function () {
+        const statusDiv = document.getElementById("status");
+
+        try {
+          statusDiv.innerHTML =
+            '<p style="color: blue;">Testando conexão...</p>';
+
+          // Test API connection
+          const projects = await api.projects.list();
+
+          statusDiv.innerHTML = `
+                    <p style="color: green;">✅ API funcionando!</p>
+                    <p><strong>window.api:</strong> ${typeof window.api}</p>
+                    <p><strong>window.API_BASE:</strong> ${window.API_BASE}</p>
+                    <p><strong>Projetos encontrados:</strong> ${JSON.stringify(
+                      projects,
+                      null,
+                      2
+                    )}</p>
+                    <p style="color: blue;">Agora você pode testar no console!</p>
+                `;
+
+          console.log("✅ API objects ready!");
+          console.log("window.api:", window.api);
+          console.log("window.API_BASE:", window.API_BASE);
+        } catch (error) {
+          statusDiv.innerHTML = `
+                    <p style="color: red;">❌ Erro na API: ${error.message}</p>
+                    <p>Verifique se o backend está rodando em ${API_BASE}</p>
+                `;
+          console.error("API error:", error);
+        }
+      };
+    </script>
+  </body>
+</html>
