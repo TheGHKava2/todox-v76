@@ -75,6 +75,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/health")
+def health_check():
+    """Health check endpoint"""
+    return {"status": "ok", "service": "ToDoX Backend"}
+
+@app.get("/")
+def root():
+    """Root endpoint"""
+    return {"message": "ToDoX MVP API", "version": "0.3.0", "docs": "/docs"}
+
 def get_db():
     db = SessionLocal()
     try:
