@@ -1,62 +1,58 @@
-# 🚀 RENDER DEPLOY - STATUS ATUAL
+# � RENDER DEPLOY - PROBLEMA IDENTIFICADO E CORRIGIDO
 
-## ✅ PROGRESSO EXCELENTE!
+## ❌ PROBLEMA ENCONTRADO:
 
-**Deploy iniciado com sucesso no Render:**
+**Erro:** `unable to open database file` - Render estava executando `main.py` com SQLite
 
-- ✅ **Service:** `todox-backend`
-- ✅ **Status:** `Deploying`
-- ✅ **Runtime:** `Docker`
-- ✅ **Region:** `Oregon`
-- ⏱️ **ETA:** 5-10 minutos
+## ✅ CORREÇÃO APLICADA:
 
----
-
-## 📋 PRÓXIMOS PASSOS:
-
-### **1. Aguardar Conclusão (5-10 min):**
-
-- Status mudará para: `Live`
-- URL será gerada: `https://todox-backend-[random].onrender.com`
-
-### **2. Quando Completar:**
-
-- [ ] Copiar URL final do Render
-- [ ] Testar backend: `https://url-render/`
-- [ ] Atualizar frontend Vercel
-- [ ] Teste final da aplicação
-
-### **3. Atualização Frontend:**
-
-```bash
-# Comandos prontos para quando tiver a URL:
-vercel env rm NEXT_PUBLIC_API_URL production
-echo "https://URL-DO-RENDER" | vercel env add NEXT_PUBLIC_API_URL production
-vercel --prod
-```
+- ✅ **Renomeado:** `main.py` → `main_full.py` (versão completa)
+- ✅ **Renomeado:** `main_simple.py` → `main.py` (versão sem DB)
+- ✅ **Atualizado:** Procfile e railway.toml
+- ✅ **Git push:** Correção commitada
 
 ---
 
-## 🎯 O QUE OBSERVAR:
+## � NOVO DEPLOY EM ANDAMENTO:
+
+**Agora o Render deve:**
+
+1. 🔄 **Detectar mudanças** no GitHub
+2. 🔄 **Auto-redeploy** com arquivo correto
+3. ✅ **Executar** `main.py` simplificado (sem banco)
+4. ✅ **Sucesso** - Backend funcionando
+
+---
+
+## 📋 O QUE OBSERVAR NO RENDER:
 
 ### **✅ Sinais de Sucesso:**
 
-- Status: `Live`
-- Build logs: sem erros
-- URL acessível
+- Novo build iniciando automaticamente
+- Logs sem erros de SQLite
+- Status mudando para `Live`
+- URL acessível retornando JSON
 
-### **❌ Possíveis Problemas:**
+### **🔧 Se Ainda Der Erro:**
 
-- Build failed
-- Timeout
-- Dependency errors
+- Clique em **"Manual Deploy"** no Render
+- Ou me informe para outras soluções
+
+---
+
+## 🎯 PRÓXIMOS PASSOS:
+
+1. **Aguardar** novo auto-deploy (2-5 min)
+2. **Observar** logs no Render
+3. **Testar** URL quando Live
+4. **Atualizar** frontend com nova URL
 
 ---
 
 **📱 ME INFORME:**
 
-1. **Quando status mudar para "Live"**
-2. **A URL final gerada**
-3. **Se aparecer algum erro**
+- **Quando novo deploy começar**
+- **Status dos logs** (sucesso/erro)
+- **URL final** quando Live
 
-**🎉 Estamos muito próximos do sucesso!** 🚀
+**🚀 Correção aplicada - muito próximos do sucesso!**
