@@ -1,5 +1,10 @@
 // Fallback para quando as variáveis de ambiente não estão disponíveis
 const getAPIBase = () => {
+  // Sempre usar a variável de ambiente se disponível
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
   // Em desenvolvimento local
   if (typeof window !== "undefined") {
     // Cliente - verificar se estamos em localhost
@@ -9,12 +14,10 @@ const getAPIBase = () => {
     ) {
       return "http://localhost:8000";
     }
-    // Em produção, usar a mesma origem com /api
-    return `${window.location.protocol}//${window.location.host}/api`;
   }
 
-  // Server-side
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  // Server-side fallback
+  return "http://localhost:8000";
 };
 
 export const API_BASE = getAPIBase();
