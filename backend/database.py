@@ -2,16 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 
-# Database configuration for Railway deployment
-if os.getenv("DATABASE_URL"):
-    # Use Railway-provided PostgreSQL database
-    DB_URL = os.getenv("DATABASE_URL")
-    # Handle Railway's postgres:// URL format (change to postgresql://)
-    if DB_URL.startswith("postgres://"):
-        DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
-elif os.getenv("ENVIRONMENT") == "production":
-    # Fallback for production without DATABASE_URL
-    DB_URL = "sqlite:////tmp/todox.db"
+# Database configuration - simple and robust
+if os.getenv("ENVIRONMENT") == "production":
+    # Railway production: use in-memory SQLite (ephemeral but works)
+    DB_URL = "sqlite:///:memory:"
 else:
     # Local development
     DB_PATH = os.getenv("DB_PATH", os.path.join(os.path.dirname(__file__), "..", "data", "app.db"))
