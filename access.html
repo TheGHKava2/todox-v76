@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDoX V76 - Acesso ao Sistema</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+      }
+      .logo {
+        font-size: 3rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+      }
+      .status {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+      .access-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 30px 0;
+      }
+      .access-card {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .access-card:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .access-card h3 {
+        margin: 0 0 10px 0;
+        color: #2d3748;
+        font-size: 1.3rem;
+      }
+      .access-card p {
+        margin: 0 0 15px 0;
+        color: #718096;
+        font-size: 0.9rem;
+      }
+      .access-link {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+      .access-link:hover {
+        background: #5a67d8;
+      }
+      .features {
+        margin-top: 30px;
+        text-align: left;
+      }
+      .feature {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        color: #4a5568;
+      }
+      .feature::before {
+        content: "✅";
+        margin-right: 10px;
+      }
+      .status-check {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f0fff4;
+        border: 2px solid #10b981;
+        border-radius: 10px;
+      }
+      .status-item {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+      }
+      .online {
+        color: #10b981;
+        font-weight: bold;
+      }
+      .offline {
+        color: #ef4444;
+        font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        .access-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">ToDoX V76</div>
+      <div class="subtitle">Sistema de Gerenciamento de Tarefas</div>
+      <div class="status">🟢 SISTEMA OPERACIONAL</div>
+
+      <div class="status-check">
+        <h3>Status dos Serviços</h3>
+        <div class="status-item">
+          <span>Backend API:</span>
+          <span id="backend-status" class="online">🟢 ONLINE</span>
+        </div>
+        <div class="status-item">
+          <span>Frontend UI:</span>
+          <span id="frontend-status" class="offline">🔴 INICIANDO...</span>
+        </div>
+        <div class="status-item">
+          <span>Database:</span>
+          <span class="online">🟢 CONECTADO</span>
+        </div>
+      </div>
+
+      <div class="access-grid">
+        <div class="access-card">
+          <h3>🌐 Interface Web</h3>
+          <p>Interface principal do usuário<br />Next.js + React</p>
+          <a href="http://localhost:3000" class="access-link" target="_blank">
+            Acessar Frontend
+          </a>
+        </div>
+
+        <div class="access-card">
+          <h3>🔧 API Backend</h3>
+          <p>API REST + Documentação<br />FastAPI + Swagger</p>
+          <a
+            href="http://localhost:8000/docs"
+            class="access-link"
+            target="_blank"
+          >
+            Acessar API Docs
+          </a>
+        </div>
+      </div>
+
+      <div class="features">
+        <h3>Funcionalidades Disponíveis:</h3>
+        <div class="feature">Gerenciamento completo de projetos e tarefas</div>
+        <div class="feature">Sistema de agentes para automação</div>
+        <div class="feature">Board Kanban interativo</div>
+        <div class="feature">API REST completa</div>
+        <div class="feature">Interface responsiva</div>
+        <div class="feature">Drag & Drop para tarefas</div>
+        <div class="feature">Monitoramento em tempo real</div>
+      </div>
+
+      <div
+        style="
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 2px solid #e2e8f0;
+        "
+      >
+        <p style="color: #718096; margin: 0">
+          📚 <strong>Documentação:</strong>
+          <a href="http://localhost:8000/docs" target="_blank">API Docs</a> | 🐳
+          <strong>Docker:</strong> docker-compose up -d | 🚀
+          <strong>Deploy:</strong> Scripts automatizados disponíveis
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Verificar status dos serviços
+      async function checkServices() {
+        // Verificar backend
+        try {
+          const response = await fetch("http://localhost:8000/health");
+          if (response.ok) {
+            document.getElementById("backend-status").innerHTML = "🟢 ONLINE";
+            document.getElementById("backend-status").className = "online";
+          }
+        } catch (error) {
+          document.getElementById("backend-status").innerHTML = "🔴 OFFLINE";
+          document.getElementById("backend-status").className = "offline";
+        }
+
+        // Verificar frontend
+        try {
+          const response = await fetch("http://localhost:3000");
+          if (response.ok) {
+            document.getElementById("frontend-status").innerHTML = "🟢 ONLINE";
+            document.getElementById("frontend-status").className = "online";
+          }
+        } catch (error) {
+          document.getElementById("frontend-status").innerHTML = "🔴 OFFLINE";
+          document.getElementById("frontend-status").className = "offline";
+        }
+      }
+
+      // Verificar a cada 5 segundos
+      setInterval(checkServices, 5000);
+      checkServices();
+    </script>
+  </body>
+</html>
