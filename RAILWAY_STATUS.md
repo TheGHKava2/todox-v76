@@ -1,43 +1,45 @@
-# 🔧 STATUS DO RAILWAY BACKEND
+# 🔧 RAILWAY BACKEND - VERSÃO SIMPLIFICADA
 
-## 📋 PROBLEMA ATUAL:
+## 📋 DESCOBERTA IMPORTANTE:
 
-- ✅ **Frontend**: Funcionando corretamente
-- ❌ **Backend Railway**: Não está respondendo
-- 🔄 **Correções**: Aplicadas e commitadas
+- ✅ **Railway está online** (responde na rede)
+- ❌ **Aplicação retorna erro 502** "Application failed to respond"
+- � **Problema:** Código não está iniciando corretamente
 
-## 🚀 CORREÇÕES REALIZADAS:
+## 🚀 SOLUÇÃO APLICADA:
 
-### ✅ **1. Arquivos Adicionados:**
+### ✅ **Versão Simplificada Deployada:**
 
-- `runtime.txt` - Especifica Python 3.11.10
-- `Procfile` - Comando de start para Railway
-- `main_simple.py` - Versão simplificada para teste
+- `main_simple.py` - Backend mínimo funcional
+- `requirements_simple.txt` - Apenas FastAPI + Uvicorn
+- `railway.toml` - Configurado para versão simples
 
-### ✅ **2. Git Push:**
+### ✅ **Deploy Realizado:**
 
-- ✅ **Commit realizado**
-- ✅ **Push para GitHub**
-- 🔄 **Auto-deploy triggering** no Railway
+- ✅ **Git commit/push** concluído
+- 🔄 **Railway auto-deploy** em andamento
+- ⏱️ **Aguardando 3-5 minutos**
 
-## ⏳ AGUARDANDO:
+## 🧪 TESTE EM BREVE:
 
-- **Railway deploy** (2-5 minutos)
-- **Backend online** test
-
-## 🧪 TESTE EM ANDAMENTO:
-
-**URL Frontend:** https://todox-ps7kl945j-gustavos-projects-f036da2e.vercel.app
+**URL Frontend:** https://todox-ps7kl945j-gustavos-projects-f036da2e.vercel.app  
 **URL Backend:** https://todox-production.up.railway.app
 
-### **O QUE DEVE ACONTECER:**
+### **O QUE DEVE ACONTECER AGORA:**
 
-1. ✅ **Frontend carrega** (já funciona)
-2. 🔄 **Railway redeploy** (em andamento)
-3. ✅ **Backend responde** (em breve)
-4. ✅ **Projetos carregam** (objetivo final)
+1. ✅ **Frontend carrega** (funcionando)
+2. 🔄 **Railway deploy** versão simples (em andamento)
+3. ✅ **Backend simples responde** (em 3-5 min)
+4. ✅ **API básica funciona** (projetos de teste)
 
 ---
 
-**⏰ Status:** Aguardando Railway Auto-Deploy  
-**🎯 Próximo:** Testar conexão em 5 minutos
+## 🎯 PRÓXIMOS PASSOS:
+
+1. **Aguardar 5 minutos** para deploy
+2. **Testar backend** simples
+3. **Se funcionar:** Expandir funcionalidades
+4. **Se não funcionar:** Investigar Railway logs
+
+**⏰ Status:** Deploy Simples em Andamento  
+**🎯 ETA:** 3-5 minutos
